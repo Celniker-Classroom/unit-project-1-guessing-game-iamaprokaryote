@@ -2,7 +2,7 @@ let answer = 0;
 let guessCount = 0; 
 let totalWins = 0; 
 let totalGuesses = 0; 
-let scores = 0; 
+let scores = []; 
 
 let playerName = prompt("Enter your first name"); 
 let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase(); 
@@ -101,6 +101,20 @@ function resetButtons() {
     }
 }
 
+function time() {
+    let d = new Date();
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    let day = d.getDate();
+    let suffix = "th";
+    if (day % 10 === 1 && day !== 11) suffix = "st";
+    else if (day % 10 === 2 && day !== 12) suffix = "nd";
+    else if (day % 10 === 3 && day !== 13) suffix = "rd";
+
+    let timeString = `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} - ${d.toLocaleTimeString()}`;
+    document.getElementById("date").textContent = timeString;
+}
+setInterval(time, 1000)
 
 // onclick easy, medium, hard, if/elif func
 

@@ -1,123 +1,20 @@
-let answer = 0; 
-let guessCount = 0; 
-let totalWins = 0; 
-let totalGuesses = 0; 
-let scores = []; 
+let answer = 0;
+let guessCount = 0;
+let totalWins = 0;
+let totalGuesses = 0;
+let scores = [];
 let startTime;
+let gameTimes = [];
 
-let playerName = prompt("Enter your first name"); 
-let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase(); 
-
-let range = 3; 
-
-document.getElementById('playBtn').addEventListener('click', function() { 
-    let radios = document.getElementsByName('level'); 
-    startTime = newDate().getTime();
-
-    for (let i = 0; i < radios.length; i++) { 
-        if (radios[i].checked) { 
-            range = parseInt(radios[i].value); 
-        } 
-    } 
-    answer = Math.floor(Math.random() * range) + 1; 
-    document.getElementById('msg').textContent = formattedName + ", guess a number between 1 and " + range;
-    document.getElementById("guess").value="";
-    document.getElementById("guessBtn").disabled = false;
-    document.getElementById("giveUpBtn").disabled = false;
-    document.getElementById("playBtn").disabled = true;
-
-    for (let i=0; i < radios.length; i++) {
-        radios[i].disabled = true;
-    }
-
-})
-
-document.getElementById('guessBtn').addEventListener('click', function(){
-    let input = document.getElementById('guess').value;
-    let num = parseInt(input);
-    if (isNaN(num)){
-        document.getElementById("msg").textContent = "Please enter a valid number!";
-        return;
-    }
-    guessCount ++;
-    let diff = Math.abs(num - answer);
-    if (num === answer) {
-        document.getElementById("msg").textContent = "Correct! " + formattedName + " got it in " + guessCount + " guesses!";
-        updateScore(guessCount);
-        resetButtons();
-    }
-    else if (num > answer) {
-        let temp = "";
-        if (diff <= 2){
-            temp = "Hot!";
-        }
-        else if (diff <= 5){
-            temp = "Warm.";
-        }
-        else {
-            temp = "Cold."
-        }
-        document.getElementById('msg').textContent = "Too high. " + temp;
-    }
-    else {
-        let temp = "";
-        if (diff <= 2){
-            temp = "Hot!";
-        }
-        else if (diff <= 5){
-            temp = "Warm.";
-        }
-        else {
-            temp = "Cold."
-        }
-        document.getElementById('msg').textContent = "Too low. " + temp;
-    }
-})
-
-document.getElementById('giveUpBtn').addEventListener('click', giveUp);
-
-function giveUp() {
-    updateScore(range); 
-    document.getElementById("msg").textContent = "You gave up! The answer was " + answer + ".";
-    resetButtons();
-}
-
-function updateScore(score){
-    totalWins ++;
-    totalGuesses += score;
-    document.getElementById("wins").textContent = "Total wins: " + totalWins;
-    document.getElementById("avgScore").textContent = "Average score: " + (totalGuesses/totalWins).toFixed(2);
-    scores.push(score);
-    scores.sort(function(a,b){return a-b;});
-
-    let leaderboard = document.getElementsByName("leaderboard");
-    for (let i=0; i < leaderboard.length; i++){
-        if (i < scores.length) {
-            leaderboard[i].textContent = scores[i];
-        }
-        else {
-            leaderboard[i].textContent = "--";
-        }
-    }
-}
-
-function resetButtons() {
-    document.getElementById('guessBtn').disabled = true;
-    document.getElementById('giveUpBtn').disabled = true;
-    document.getElementById('playBtn').disabled = false;
-
-    let radios = document.getElementsByName("level");
-    for (let i=0; i<radios.length; i++){
-        radios[i].disabled = false;
-    }
-}
+let playerName = prompt("Enter your first name");
+let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase();
 
 function time() {
     let d = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
     let day = d.getDate();
     let suffix = "th";
+    
     if (day % 10 === 1 && day !== 11) suffix = "st";
     else if (day % 10 === 2 && day !== 12) suffix = "nd";
     else if (day % 10 === 3 && day !== 13) suffix = "rd";
@@ -125,9 +22,87 @@ function time() {
     let timeString = `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} - ${d.toLocaleTimeString()}`;
     document.getElementById("date").textContent = timeString;
 }
-setInterval(time, 1000)
+setInterval(time, 1000);
 
-let gameTimes = [];
+document.getElementById('playBtn').addEventListener('click', function() {
+    guessCount = 0;
+    startTime = new Date().getTime();
+    let radios = document.getElementsByName('level');
+    
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            range = parseInt(radios[i].value);
+        }
+        radios[i].disabled = true;
+    }
+    
+    answer = Math.floor(Math.random() * range) + 1;
+    document.getElementById('msg').textContent = formattedName + ", guess a number between 1 and " + range;
+    document.getElementById("guess").value = "";
+    document.getElementById("guessBtn").disabled = false;
+    document.getElementById("giveUpBtn").disabled = false;
+    document.getElementById("playBtn").disabled = true;
+});
+
+document.getElementById('guessBtn').addEventListener('click', function() {
+    let input = document.getElementById('guess').value;
+    let num = parseInt(input);
+    
+    if (isNaN(num)) {
+        document.getElementById("msg").textContent = "Please enter a valid number!";
+        return;
+    }
+    
+    guessCount++;
+    let diff = Math.abs(num - answer);
+    
+    if (num === answer) {
+        document.getElementById("msg").textContent = "Correct! " + formattedName + " got it in " + guessCount + " guesses!";
+        updateScore(guessCount, true);
+        resetButtons();
+    } else {
+        let hint = "";
+        if (diff <= 2) hint = "hot";
+        else if (diff <= 5) hint = "warm";
+        else hint = "cold";
+        
+        let direction = num > answer ? "high" : "low";
+        document.getElementById('msg').textContent = `Too ${direction}. You are ${hint}!`;
+    }
+});
+
+document.getElementById('giveUpBtn').addEventListener('click', giveUp);
+
+function giveUp() {
+    document.getElementById("msg").textContent = "You gave up! The answer was " + answer + ".";
+    updateScore(range, false);
+    resetButtons();
+}
+
+function updateScore(score, isWin) {
+    if (isWin) {
+        totalWins++;
+        document.getElementById("wins").textContent = "Total wins: " + totalWins;
+    }
+    
+    totalGuesses += score;
+    scores.push(score);
+    scores.sort((a, b) => a - b);
+
+    document.getElementById("avgScore").textContent = "Average score: " + (totalGuesses / scores.length).toFixed(2);
+
+    let leaderboard = document.getElementsByName("leaderboard");
+    for (let i = 0; i < leaderboard.length; i++) {
+        if (scores[i] !== undefined) {
+            leaderboard[i].textContent = scores[i];
+        } else {
+            leaderboard[i].textContent = "--";
+        }
+    }
+
+    let duration = (new Date().getTime() - startTime) / 1000;
+    updateTimers(duration);
+}
 
 function updateTimers(duration) {
     gameTimes.push(duration);
@@ -135,14 +110,16 @@ function updateTimers(duration) {
     let sumTime = gameTimes.reduce((a, b) => a + b, 0);
     let avgTime = sumTime / gameTimes.length;
 
-    document.getElementById("fastest").textContent = "Fastest Game: " + fastest.toFixed(2) + "s";
-    document.getElementById("avgTime").textContent = "Average Time: " + avgTime.toFixed(2) + "s";
+    document.getElementById("fastest").textContent = "Fastest Game: " + fastest.toFixed(2);
+    document.getElementById("avgTime").textContent = "Average Time: " + avgTime.toFixed(2);
 }
 
-// onclick easy, medium, hard, if/elif func
-
-// if player guess too high, #msg is high
-// same for low/correct
-
-// if guess > 5, cold, <= 5 warm, <= 2 hot
-
+function resetButtons() {
+    document.getElementById('guessBtn').disabled = true;
+    document.getElementById('giveUpBtn').disabled = true;
+    document.getElementById('playBtn').disabled = false;
+    let radios = document.getElementsByName("level");
+    for (let i = 0; i < radios.length; i++) {
+        radios[i].disabled = false;
+    }
+}

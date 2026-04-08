@@ -3,6 +3,7 @@ let guessCount = 0;
 let totalWins = 0; 
 let totalGuesses = 0; 
 let scores = []; 
+let startTime;
 
 let playerName = prompt("Enter your first name"); 
 let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase(); 
@@ -11,6 +12,8 @@ let range = 3;
 
 document.getElementById('playBtn').addEventListener('click', function() { 
     let radios = document.getElementsByName('level'); 
+    startTime = newDate().getTime();
+
     for (let i = 0; i < radios.length; i++) { 
         if (radios[i].checked) { 
             range = parseInt(radios[i].value); 

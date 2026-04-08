@@ -71,6 +71,14 @@ document.getElementById('guessBtn').addEventListener('click', function(){
     }
 })
 
+document.getElementById('giveUpBtn').addEventListener('click', giveUp);
+
+function giveUp() {
+    updateScore(range); 
+    document.getElementById("msg").textContent = "You gave up! The answer was " + answer + ".";
+    resetButtons();
+}
+
 function updateScore(score){
     totalWins ++;
     totalGuesses += score;

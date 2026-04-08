@@ -16,7 +16,7 @@ document.getElementById('playBtn').addEventListener('click', function() {
             range = parseInt(radios[i].value); 
         } 
     } 
-    answer = Math.floor(Math.random() * range) + 1; 
+    let answer = Math.floor(Math.random() * range) + 1; 
     document.getElementById('msg').textContent = formattedName + ", guess a number between 1 and " + range;
     document.getElementById("guess").value="";
     document.getElementById("guessBtn").disabled = false;
@@ -29,7 +29,17 @@ document.getElementById('playBtn').addEventListener('click', function() {
 
 });
 
-document.getElementById('')
+const userInput = Number.document.getElementById('guess').textContent;
+if (userInput > answer) {
+    document.getElementById('resultmsg').textContent = "Too high!";
+}
+else if (userInput == answer) {
+    document.getElementById('resultmsg').textContent = "Correct!";
+}
+else if (userInput > answer) {
+    document.getElementById('resultmsg').textContent = "Too low!";
+}
+
 
 // onclick easy, medium, hard, if/elif func
 

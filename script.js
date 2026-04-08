@@ -124,6 +124,18 @@ function time() {
 }
 setInterval(time, 1000)
 
+let gameTimes = [];
+
+function updateTimers(duration) {
+    gameTimes.push(duration);
+    let fastest = Math.min(...gameTimes);
+    let sumTime = gameTimes.reduce((a, b) => a + b, 0);
+    let avgTime = sumTime / gameTimes.length;
+
+    document.getElementById("fastest").textContent = "Fastest Game: " + fastest.toFixed(2) + "s";
+    document.getElementById("avgTime").textContent = "Average Time: " + avgTime.toFixed(2) + "s";
+}
+
 // onclick easy, medium, hard, if/elif func
 
 // if player guess too high, #msg is high

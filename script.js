@@ -61,6 +61,11 @@ document.getElementById('guessBtn').addEventListener('click', function() {
     
     if (num === answer) {
         document.getElementById("msg").textContent = "Correct! " + formattedName + " got it in " + guessCount + " guesses!";
+        confetti({
+          particleCount: 500,
+          spread: 360,
+          origin: { y: 0.6 },
+        });
         updateScore(guessCount);
         resetButtons();
     } else {
@@ -103,7 +108,7 @@ function updateScore(score) {
     let leaderboard = document.getElementsByName("leaderboard");
     for (let i = 0; i < leaderboard.length; i++) {
         if (scores[i] !== undefined) {
-            leaderboard[i].textContent = scores[i];
+            leaderboard[i].textContent = scores[i] + " guesses";
         } else {
             leaderboard[i].textContent = "--";
         }
@@ -122,8 +127,8 @@ function updateTimers(duration) {
     let sumTime = gameTimes.reduce((a, b) => a + b, 0);
     let avgTime = sumTime / gameTimes.length;
 
-    document.getElementById("fastest").textContent = "Fastest Game: " + fastest.toFixed(2);
-    document.getElementById("avgTime").textContent = "Average Time: " + avgTime.toFixed(2);
+    document.getElementById("fastest").textContent = "Fastest Game: " + fastest.toFixed(2) + " seconds";
+    document.getElementById("avgTime").textContent = "Average Time: " + avgTime.toFixed(2) + " seconds";
 }
 
 function resetButtons() {
@@ -136,3 +141,9 @@ function resetButtons() {
     }
     startTime = null;
 }
+
+confetti({
+  particleCount: 100,
+  spread: 70,
+  origin: { y: 0.6 },
+});

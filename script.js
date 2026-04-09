@@ -5,6 +5,7 @@ let totalGuesses = 0;
 let scores = [];
 let startTime;
 let gameTimes = [];
+let range = 3;
 
 let playerName = prompt("Enter your first name");
 let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase();
@@ -22,6 +23,8 @@ function time() {
     let timeString = `${months[d.getMonth()]} ${day}${suffix}, ${d.getFullYear()} - ${d.toLocaleTimeString()}`;
     document.getElementById("date").textContent = timeString;
 }
+
+time(); 
 setInterval(time, 1000);
 
 document.getElementById('playBtn').addEventListener('click', function() {
@@ -75,7 +78,6 @@ document.getElementById('giveUpBtn').addEventListener('click', giveUp);
 
 function giveUp() {
     document.getElementById("msg").textContent = "You gave up! The answer was " + answer + ".";
-    updateScore(range, false);
     resetButtons();
 }
 

@@ -1,6 +1,12 @@
+html, body {
+    min-height: 100vh; 
+    margin: 0;
+}
+
 body{
     margin: 20px auto;
     max-width: 400px;
     font-family: sans-serif;
     text-align: center;
+    background-image: linear-gradient(#a1c4e6, #446296)
 }

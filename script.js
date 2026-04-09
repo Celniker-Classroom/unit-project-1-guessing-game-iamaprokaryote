@@ -3,12 +3,12 @@ let guessCount = 0;
 let totalWins = 0;
 let totalGuesses = 0;
 let scores = [];
-let startTime;
+let startTime = null;
 let gameTimes = [];
 let range = 3;
 
 let playerName = prompt("Enter your first name");
-let formattedName = playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase();
+let formattedName = playerName ? playerName.charAt(0).toUpperCase() + playerName.slice(1).toLowerCase() : "Player";
 
 function time() {
     let d = new Date();
@@ -61,7 +61,7 @@ document.getElementById('guessBtn').addEventListener('click', function() {
     
     if (num === answer) {
         document.getElementById("msg").textContent = "Correct! " + formattedName + " got it in " + guessCount + " guesses!";
-        updateScore(guessCount, true);
+        updateScore(guessCount);
         resetButtons();
     } else {
         let hint = "";
@@ -77,21 +77,28 @@ document.getElementById('guessBtn').addEventListener('click', function() {
 document.getElementById('giveUpBtn').addEventListener('click', giveUp);
 
 function giveUp() {
+    let currentRange = 3;
+    let radios = document.getElementsByName('level');
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            currentRange = parseInt(radios[i].value);
+        }
+    }
+    
     document.getElementById("msg").textContent = "You gave up! The answer was " + answer + ".";
+    updateScore(currentRange);
     resetButtons();
 }
 
-function updateScore(score, isWin) {
-    if (isWin) {
-        totalWins++;
-        document.getElementById("wins").textContent = "Total wins: " + totalWins;
-    }
+function updateScore(score) {
+    totalWins++;
+    document.getElementById("wins").textContent = "Total wins: " + totalWins;
     
     totalGuesses += score;
     scores.push(score);
     scores.sort((a, b) => a - b);
 
-    document.getElementById("avgScore").textContent = "Average score: " + (totalGuesses / scores.length).toFixed(2);
+    document.getElementById("avgScore").textContent = "Average score: " + (totalGuesses / totalWins).toFixed(2);
 
     let leaderboard = document.getElementsByName("leaderboard");
     for (let i = 0; i < leaderboard.length; i++) {
@@ -102,7 +109,10 @@ function updateScore(score, isWin) {
         }
     }
 
-    let duration = (new Date().getTime() - startTime) / 1000;
+    let duration = 0;
+    if (startTime) {
+        duration = (new Date().getTime() - startTime) / 1000;
+    }
     updateTimers(duration);
 }
 
@@ -124,4 +134,5 @@ function resetButtons() {
     for (let i = 0; i < radios.length; i++) {
         radios[i].disabled = false;
     }
+    startTime = null;
 }

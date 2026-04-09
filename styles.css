@@ -5,7 +5,7 @@ html, body {
 
 body{
     margin: 20px auto;
-    max-width: 400px;
+    max-width: fit-content;
     font-family: 'Inter', sans-serif;
     text-align: center;
     background-image: linear-gradient(to bottom right, #f6b6b5, #1a57c1)
@@ -15,12 +15,26 @@ body{
     background: linear-gradient(-45deg, #a0a0a0 40%, #ffffff 50%, #a0a0a0 60%);
     background-size: 300%;
     border-radius: 40px;
-    padding: 20px;
+    padding: 30px;
     padding-bottom: 30px;
 }
 
 #main:hover{
     animation: shimmer 2s 8 linear;
+}
+
+#main input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+#main button{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
 }
 
 @keyframes shimmer {

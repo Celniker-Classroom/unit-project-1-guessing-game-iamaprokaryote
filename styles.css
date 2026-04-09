@@ -6,7 +6,24 @@ html, body {
 body{
     margin: 20px auto;
     max-width: 400px;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
     text-align: center;
-    background-image: linear-gradient(#a1c4e6, #446296)
+    background-image: linear-gradient(to bottom right, #f6b6b5, #1a57c1)
+}
+
+#main{
+    background: linear-gradient(-45deg, #a0a0a0 40%, #ffffff 50%, #a0a0a0 60%);
+    background-size: 300%;
+    border-radius: 40px;
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+#main:hover{
+    animation: shimmer 2s 8 linear;
+}
+
+@keyframes shimmer {
+  0% { background-position-x: 100%; }
+  100% { background-position-x: -50%; }
 }

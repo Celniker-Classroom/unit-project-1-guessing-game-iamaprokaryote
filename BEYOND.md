@@ -1,11 +1,6 @@
-Extra features:
-- confetti cannon (on guess success) (finished)
-- gradient background (finished)
-- div tag encircling everything but stats and leaderboard
-- metallic animation
-- div tag separating stats and leaderboard to be next to each other
-
-NEED:
-- sound effects on give up/success (NEED)
-- background music, speedrun?? (NEED)
-- semi-translucent bg for stats and board (NEED)
+I added the following extra features:
+- a completely redesigned color scheme
+- glasslike user interface with a reflection animation
+- redesigned buttons/inputs
+- separated the statistics and leaderboard from the main game in div tags
+- confetti upon game success
